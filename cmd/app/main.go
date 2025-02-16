@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -25,6 +26,16 @@ const (
 )
 
 func main() {
+	var (
+		dbUser     string
+		dbPassword string
+	)
+
+	flag.StringVar(&dbUser, "dbuser", "postgres", "database user")
+	flag.StringVar(&dbPassword, "dbpass", "root1234", "database password")
+
+	flag.Parse()
+
 	config := zap.Config{
 		Level:            zap.NewAtomicLevelAt(zapcore.DebugLevel),
 		Development:      true,
@@ -44,8 +55,8 @@ func main() {
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		"localhost",
 		"5432",
-		"postgres",
-		"root1234",
+		dbUser,
+		dbPassword,
 		"shop",
 	))
 	if err != nil {

@@ -39,6 +39,9 @@ create table if not exists user_transaction (
     foreign key (user_to) references users(id) on delete set null
 );
 
+create index user_transaction_user_from_time on user_transaction(user_from, sent_at);
+create index user_transaction_user_to_time on user_transaction(user_to, sent_at);
+
 create table if not exists user_product (
     user_id integer,
     product_id integer,
@@ -46,3 +49,5 @@ create table if not exists user_product (
     foreign key (user_id) references users(id) on delete cascade,
     foreign key (product_id) references product(id) on delete set null
 );
+
+create index user_product_user_time on user_product(user_id, bought_at);
